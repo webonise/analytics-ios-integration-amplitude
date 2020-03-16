@@ -207,11 +207,12 @@
     NSString *groupValue = payload.traits[groupTypeValue];
 
     if (!groupName || !groupValue) {
-        ///values flipped to get desired output DWEB:22
-        groupName = payload.groupId;
         groupValue = payload.traits[@"name"] ?: @"[Segment] Group";
+        groupName = payload.groupId;
     }
-
+    //groupValue Specify a group type (e.g. 'orgId').
+    //groupname The value for the group name. This can be a string or an array of strings (e.g. for the groupType 'orgId', the groupName would be an actual ID number like '15').
+    //https://help.amplitude.com/hc/en-us/articles/115003970027-iOS-SDK-Reference
     [self.amplitude setGroup:groupValue groupName:groupName];
     SEGLog(@"[Amplitude setGroup:%@ groupName:%@]", groupValue, groupName);
 }
