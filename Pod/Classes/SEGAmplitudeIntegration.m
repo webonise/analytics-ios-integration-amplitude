@@ -191,6 +191,12 @@
         [self realTrack:@"Loaded a Screen" properties:payloadProps integrations:payload.integrations];
         return;
     }
+    
+    if ([(NSNumber *)self.settings[@"trackNamedPages"] boolValue] && payload.name) {
+        NSString *event = [[NSString alloc] initWithFormat:@"Viewed %@ Screen", payload.name];
+        [self realTrack:event properties:payload.properties integrations:payload.integrations];
+        return;
+    }
 
     // Deprecated.
     if ([(NSNumber *)self.settings[@"trackAllPages"] boolValue]) {
