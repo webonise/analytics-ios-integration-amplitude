@@ -176,6 +176,32 @@ describe(@"SEGAmplitudeIntegration", ^{
                                                                                   @"url" : @"seinfeld.wikia.com/wiki/The_Puffy_Shirt",
                                                                                   @"Feed Type" : @"private" } withGroups:nil outOfSession:false];
         });
+    
+        it(@"does not call screen if trackNamedPages = false", ^{
+            integration = [[SEGAmplitudeIntegration alloc] initWithSettings:@{ @"trackNamedPages" : @false } andAmplitude:amplitude andAmpRevenue:amprevenue andAmpIdentify:identify];
+
+            SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Shirts" properties:@{} context:@{} integrations:@{}];
+            [integration screen:payload];
+            [verifyCount(amplitude, never()) logEvent:@"Viewed Shirts Screen" withEventProperties:@{}];
+        });
+    
+        it(@"does not call screen if trackNamedPages = true, but screen has no name", ^{
+            integration = [[SEGAmplitudeIntegration alloc] initWithSettings:@{ @"trackAllPages" : @true } andAmplitude:amplitude andAmpRevenue:amprevenue andAmpIdentify:identify];
+
+            SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"" properties:@{} context:@{} integrations:@{}];
+            [integration screen:payload];
+            
+            [verifyCount(amplitude, never()) logEvent:@"Viewed  Screen" withEventProperties:@{}];
+        });
+    
+    
+        it(@"trackNamedPages", ^{
+            integration = [[SEGAmplitudeIntegration alloc] initWithSettings:@{ @"trackNamedPages" : @true } andAmplitude:amplitude andAmpRevenue:amprevenue andAmpIdentify:identify];
+
+            SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:@"Shirts" properties:@{} context:@{} integrations:@{}];
+            [integration screen:payload];
+            [verify(amplitude) logEvent:@"Viewed Shirts Screen" withEventProperties:@{} withGroups:nil outOfSession:false];
+        });
 
     });
 
