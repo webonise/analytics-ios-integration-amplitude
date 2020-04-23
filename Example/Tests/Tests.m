@@ -209,7 +209,7 @@ describe(@"SEGAmplitudeIntegration", ^{
         it(@"sets groupId", ^{
             SEGGroupPayload *payload = [[SEGGroupPayload alloc] initWithGroupId:@"322" traits:@{} context:@{} integrations:@{}];
             [integration group:payload];
-            [verify(amplitude) setGroup:@"322" groupName:@"[Segment] Group"];
+            [verify(amplitude) setGroup:@"[Segment] Group" groupName:@"322"];
         });
 
         it(@"settings.groupTypeValue and settings.groupTypeTrait", ^{
@@ -231,7 +231,7 @@ describe(@"SEGAmplitudeIntegration", ^{
         it(@"sets group name with traits.name", ^{
             SEGGroupPayload *payload = [[SEGGroupPayload alloc] initWithGroupId:@"12342" traits:@{ @"name" : @"Segment" } context:@{} integrations:@{}];
             [integration group:payload];
-            [verify(amplitude) setGroup:@"12342" groupName:@"Segment"];
+            [verify(amplitude) setGroup:@"Segment" groupName:@"12342"];
         });
     });
 
